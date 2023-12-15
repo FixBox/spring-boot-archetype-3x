@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
+    <packaging>jar</packaging>
+
+    <profiles>
+        <profile>
+            <id>mySql-migration</id>
+            <properties>
+                <fileFlyWayConfig>src/main/resources/flyWay.config/mySqlConfig.properties</fileFlyWayConfig>
+            </properties>
+        </profile>
+        <profile>
+            <id>postgreSQL-migration</id>
+            <properties>
+                <fileFlyWayConfig>src/main/resources/flyWay.config/postgreSqlConfig.properties</fileFlyWayConfig>
+            </properties>
+        </profile>
+    </profiles>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <propertiesEncoding>UTF-8</propertiesEncoding>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <jacocoVersion>0.8.11</jacocoVersion>
+        <juni5Version>5.10.1</juni5Version>
+        <mySqlconnectorVersion>8.2.0</mySqlconnectorVersion>
+        <postgersSqlconnectorVersion>42.7.1</postgersSqlconnectorVersion>
+        <modelMapperVersion>3.1.1</modelMapperVersion>
+        <springdocOpenapiWebMvcUiVersion>2.3.0</springdocOpenapiWebMvcUiVersion>
+        <!--        <springfoxSwagger2Version>3.0.0</springfoxSwagger2Version>-->
+        <!--        <springfoxSwaggerUiVersion>3.0.0</springfoxSwaggerUiVersion>-->
+        <lombokVersion>1.18.30</lombokVersion>
+        <mavenResourcesPluginVer>3.3.1</mavenResourcesPluginVer>
+        <springBootMavenPluginVersion>3.2.0</springBootMavenPluginVersion>
+        <springBootStarterDataJpaVersion>3.2.0</springBootStarterDataJpaVersion>
+        <springBootStarterWebVersion>3.2.0</springBootStarterWebVersion>
+        <springBootStarterTestVersion>3.2.0</springBootStarterTestVersion>
+        <baseBackage>${package}</baseBackage>
+        <flywayMavenPlugin>10.2.0</flywayMavenPlugin>
+        <flywayMysqlVersion>10.2.0</flywayMysqlVersion>
+    </properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.0</version>
+    </parent>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${juni5Version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdocOpenapiWebMvcUiVersion}</version>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>io.springfox</groupId>-->
+        <!--            <artifactId>springfox-swagger-ui</artifactId>-->
+        <!--            <version>${springfoxSwaggerUiVersion}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.springfox</groupId>-->
+        <!--            <artifactId>springfox-swagger2</artifactId>-->
+        <!--            <version>${springfoxSwagger2Version}</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${modelMapperVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombokVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${springBootStarterWebVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${springBootStarterTestVersion}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${springBootStarterDataJpaVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>${flywayMysqlVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>${mySqlconnectorVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgersSqlconnectorVersion}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${springBootMavenPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+                <!--                <plugin>-->
+                <!--                    <artifactId>maven-resources-plugin</artifactId>-->
+                <!--                    <groupId>org.apache.maven.plugins</groupId>-->
+                <!--                    <version>${mavenResourcesPluginVer}</version>-->
+                <!--                    <configuration>-->
+                <!--                        <useDefaultDelimiters>true</useDefaultDelimiters>-->
+                <!--                        <encoding>${propertiesEncoding}</encoding>-->
+                <!--                    </configuration>-->
+                <!--                </plugin>-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-maven-plugin</artifactId>
+                    <version>9.21.0</version>
+                    <configuration>
+                        <configFiles>${fileFlyWayConfig}</configFiles>
+                    </configuration>
+                </plugin>
+                <!-- jacoco -->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacocoVersion}</version>
+                    <executions>
+                        <execution>
+                            <id>prepare-agent</id>
+                            <goals><goal>prepare-agent</goal></goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>test</phase>
+                            <goals><goal>report</goal></goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
