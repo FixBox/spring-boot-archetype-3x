@@ -13,12 +13,16 @@
         <profile>
             <id>mySql-migration</id>
             <properties>
+                <!-- for compatibily problems set flywayCoreVersion in frofiles properties -->
+                <flywayCoreVersion>10.3.0</flywayCoreVersion>
                 <fileFlyWayConfig>src/main/resources/flyWay.config/mySqlConfig.properties</fileFlyWayConfig>
             </properties>
         </profile>
         <profile>
             <id>postgreSQL-migration</id>
             <properties>
+                <!-- for compatibily problems set flywayCoreVersion in frofiles properties -->
+                <flywayCoreVersion>9.22.3</flywayCoreVersion>
                 <fileFlyWayConfig>src/main/resources/flyWay.config/postgreSqlConfig.properties</fileFlyWayConfig>
             </properties>
         </profile>
@@ -193,6 +197,13 @@
                     <configuration>
                         <configFiles>${fileFlyWayConfig}</configFiles>
                     </configuration>
+                    <dependencies>
+                     <dependency>
+                                <groupId>org.flywaydb</groupId>
+                                <artifactId>flyway-core</artifactId>
+                                <version>${flywayCoreVersion}</version>
+                            </dependency>
+                     </dependencies>
                 </plugin>
                 <!-- jacoco -->
                 <plugin>
