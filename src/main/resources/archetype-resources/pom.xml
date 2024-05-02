@@ -9,6 +9,30 @@
     <version>${version}</version>
     <packaging>jar</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <propertiesEncoding>UTF-8</propertiesEncoding>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <jacocoVersion>0.8.11</jacocoVersion>
+        <juni5Version>5.10.1</juni5Version>
+        <mySqlconnectorVersion>8.2.0</mySqlconnectorVersion>
+        <postgersSqlconnectorVersion>42.7.1</postgersSqlconnectorVersion>
+        <modelMapperVersion>3.1.1</modelMapperVersion>
+        <springdocOpenapiWebMvcUiVersion>2.3.0</springdocOpenapiWebMvcUiVersion>
+        <lombokVersion>1.18.30</lombokVersion>
+        <mavenResourcesPluginVer>3.3.1</mavenResourcesPluginVer>
+        <springBootMavenPluginVersion>3.2.0</springBootMavenPluginVersion>
+        <springBootStarterDataJpaVersion>3.2.0</springBootStarterDataJpaVersion>
+        <springBootStarterWebVersion>3.2.0</springBootStarterWebVersion>
+        <springBootStarterTestVersion>3.2.0</springBootStarterTestVersion>
+        <baseBackage>org.service</baseBackage>
+        <flywayMavenPlugin>10.6.0</flywayMavenPlugin>
+        <flywayMysqlVersion>10.6.0</flywayMysqlVersion>
+        <!--        <fileFlyWayConfig>src/main/resources/flyWay.config/</fileFlyWayConfig>-->
+        <flywayCoreVersion>10.3.0</flywayCoreVersion>
+    </properties>
+
     <profiles>
         <profile>
             <id>mySql-migration</id>
@@ -29,29 +53,7 @@
     </profiles>
 
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <propertiesEncoding>UTF-8</propertiesEncoding>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <jacocoVersion>0.8.11</jacocoVersion>
-        <juni5Version>5.10.1</juni5Version>
-        <mySqlconnectorVersion>8.2.0</mySqlconnectorVersion>
-        <postgersSqlconnectorVersion>42.7.1</postgersSqlconnectorVersion>
-        <modelMapperVersion>3.1.1</modelMapperVersion>
-        <springdocOpenapiWebMvcUiVersion>2.3.0</springdocOpenapiWebMvcUiVersion>
-        <!--        <springfoxSwagger2Version>3.0.0</springfoxSwagger2Version>-->
-        <!--        <springfoxSwaggerUiVersion>3.0.0</springfoxSwaggerUiVersion>-->
-        <lombokVersion>1.18.30</lombokVersion>
-        <mavenResourcesPluginVer>3.3.1</mavenResourcesPluginVer>
-        <springBootMavenPluginVersion>3.2.0</springBootMavenPluginVersion>
-        <springBootStarterDataJpaVersion>3.2.0</springBootStarterDataJpaVersion>
-        <springBootStarterWebVersion>3.2.0</springBootStarterWebVersion>
-        <springBootStarterTestVersion>3.2.0</springBootStarterTestVersion>
-        <baseBackage>${package}</baseBackage>
-        <flywayMavenPlugin>10.2.0</flywayMavenPlugin>
-        <flywayMysqlVersion>10.2.0</flywayMysqlVersion>
-    </properties>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -147,82 +149,63 @@
     </dependencies>
 
     <build>
-        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${springBootMavenPluginVersion}</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
-                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-                <!--                <plugin>-->
-                <!--                    <artifactId>maven-resources-plugin</artifactId>-->
-                <!--                    <groupId>org.apache.maven.plugins</groupId>-->
-                <!--                    <version>${mavenResourcesPluginVer}</version>-->
-                <!--                    <configuration>-->
-                <!--                        <useDefaultDelimiters>true</useDefaultDelimiters>-->
-                <!--                        <encoding>${propertiesEncoding}</encoding>-->
-                <!--                    </configuration>-->
-                <!--                </plugin>-->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.11.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.flywaydb</groupId>
-                    <artifactId>flyway-maven-plugin</artifactId>
-                    <version>9.21.0</version>
-                    <configuration>
-                        <configFiles>${fileFlyWayConfig}</configFiles>
-                    </configuration>
-                    <dependencies>
-                     <dependency>
-                                <groupId>org.flywaydb</groupId>
-                                <artifactId>flyway-core</artifactId>
-                                <version>${flywayCoreVersion}</version>
-                            </dependency>
-                     </dependencies>
-                </plugin>
-                <!-- jacoco -->
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jacocoVersion}</version>
-                    <executions>
-                        <execution>
-                            <id>prepare-agent</id>
-                            <goals><goal>prepare-agent</goal></goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
-                            <phase>test</phase>
-                            <goals><goal>report</goal></goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springBootMavenPluginVersion}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+            <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+            <!--                <plugin>-->
+            <!--                    <artifactId>maven-resources-plugin</artifactId>-->
+            <!--                    <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                    <version>${mavenResourcesPluginVer}</version>-->
+            <!--                    <configuration>-->
+            <!--                        <useDefaultDelimiters>true</useDefaultDelimiters>-->
+            <!--                        <encoding>${propertiesEncoding}</encoding>-->
+            <!--                    </configuration>-->
+            <!--                </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flywayMavenPlugin}</version>
+                <configuration>
+                    <configFiles>${fileFlyWayConfig}</configFiles>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.flywaydb</groupId>
+                        <artifactId>flyway-core</artifactId>
+                        <version>${flywayCoreVersion}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- jacoco -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacocoVersion}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals><goal>prepare-agent</goal></goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals><goal>report</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
