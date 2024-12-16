@@ -50,6 +50,14 @@
                 <fileFlyWayConfig>src/main/resources/flyWay.config/postgreSqlConfig.properties</fileFlyWayConfig>
             </properties>
         </profile>
+        <profile>
+            <id>h2-migration</id>
+            <properties>
+                <!-- for compatibily problems set flywayCoreVersion in frofiles properties -->
+                <flywayCoreVersion>10.3.0</flywayCoreVersion>
+                <fileFlyWayConfig>src/main/resources/flyWay.config/h2.properties</fileFlyWayConfig>
+            </properties>
+        </profile>
     </profiles>
 
 
@@ -118,14 +126,15 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${springBootStarterDataJpaVersion}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-jpa</artifactId>-->
+<!--            <version>${springBootStarterDataJpaVersion}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+            <version>${flywayCoreVersion}</version>
         </dependency>
 
         <dependency>
@@ -145,7 +154,21 @@
             <artifactId>postgresql</artifactId>
             <version>${postgersSqlconnectorVersion}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.2.224</version>
+            <scope>runtime</scope>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.liquibase</groupId>-->
+<!--            <artifactId>liquibase-core</artifactId>-->
+<!--            <version>4.23.2</version> &lt;!&ndash; Sostituisci con una versione compatibile con il tuo progetto &ndash;&gt;-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
