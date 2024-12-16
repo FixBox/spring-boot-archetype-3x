@@ -35,17 +35,17 @@ Added new file properties for test profile.
 # postgreSQL and Mysql connection  Flyway plugin for migrate with 2 profile
 When project is create from the Archetype execution in directory flyWay.config/mySqlConfig.properties you can push
 your flyWay properties file .
-By default, exist 2 file mySqlConfig.properties for MySql and postgreSqlConfig.properties the properties for JPA and
+By default, exist 3 file mySqlConfig.properties for MySql ,  postgreSqlConfig.properties and h2.properties the properties for JPA and
 Hibernate connection are in directory resources properties are stored in application-<PROFILE>.properties files :
 
 > ### DB -MySql
 >  #spring.datasource.url=jdbc:mysql://localhost:3306/localTest?serverTimezone=UTC
-#spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
-#spring.datasource.username=root
-#spring.datasource.password=password
-#spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
-#spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-#spring.jpa.properties.hibernate.format_sql=true
+spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+spring.datasource.username=root
+spring.datasource.password=password
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+spring.jpa.properties.hibernate.format_sql=true
 
 
 >### DB -postgresSql
@@ -56,6 +56,15 @@ spring.datasource.password=password
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL9Dialect
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 spring.jpa.properties.hibernate.format_sql=true
+
+### DB -H2
+spring.datasource.url=jdbc:h2:mem:testdb:8082
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.show-sql=true
 
 Comment or uncomment the properties for your db :
 
