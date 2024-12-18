@@ -32,11 +32,12 @@ Added new file properties for test profile.
 
 
 
-# postgreSQL and Mysql connection  Flyway plugin for migrate with 2 profile
+# postgreSQL and Mysql connection  Flyway plugin for migrate with 3 profiles
 When project is create from the Archetype execution in directory flyWay.config/mySqlConfig.properties you can push
 your flyWay properties file .
-By default, exist 3 file mySqlConfig.properties for MySql ,  postgreSqlConfig.properties and h2.properties the properties for JPA and
-Hibernate connection are in directory resources properties are stored in application-<PROFILE>.properties files :
+By default, exist 3 file mySqlConfig.properties for MySql ,  postgreSqlConfig.properties and h2.properties (in memory) 
+the properties for JPA and Hibernate connection are in directory resources properties are stored 
+in application-<PROFILE>.properties files :
 
 > ### DB -MySql
 >  #spring.datasource.url=jdbc:mysql://localhost:3306/localTest?serverTimezone=UTC
@@ -57,8 +58,8 @@ spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL9Dialect
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 spring.jpa.properties.hibernate.format_sql=true
 
-### DB -H2
-spring.datasource.url=jdbc:h2:mem:testdb:8082
+>### DB -H2 (in memory)
+>spring.datasource.url=jdbc:h2:mem:testdb:8082
 spring.datasource.driver-class-name=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=password
