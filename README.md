@@ -21,7 +21,7 @@ For Eclipse please use wizard for new project , I can not find documentation on 
 
 # Maven Build
 
-*  `mvn archetype:generate -B  -DarchetypeGroupId=it.service   -DarchetypeArtifactId=spring-boot-archetype-3x  -DarchetypeVersion=1.0-SNAPSHOT   -DgroupId=com.company   -DartifactId=projectName  -Dversion=1.0-SNAPSHOT   -Dpackage=com.company.project`
+*  `mvn archetype:generate -B  -DarchetypeGroupId=it.service   -DarchetypeArtifactId=spring-boot-archetype-3x  -DarchetypeVersion=1.1-SNAPSHOT   -DgroupId=com.company   -DartifactId=projectName  -Dversion=1.0-SNAPSHOT   -Dpackage=com.company.project`
 
 
 
