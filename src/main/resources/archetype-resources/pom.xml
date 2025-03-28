@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+This file is part of spring-boot-archetype-3x.
+
+Copyright (C) 2025 FixBox
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -40,6 +59,8 @@
                 <!-- for compatibily problems set flywayCoreVersion in frofiles properties -->
                 <flywayCoreVersion>10.3.0</flywayCoreVersion>
                 <fileFlyWayConfig>src/main/resources/flyWay.config/mySqlConfig.properties</fileFlyWayConfig>
+                <reverseconnectorVersion>${mySqlconnectorVersion}</reverseconnectorVersion>
+                <reverseHmbConfig>src/main/resources/revegHmb.config/mySql</reverseHmbConfig>
             </properties>
         </profile>
         <profile>
@@ -48,6 +69,8 @@
                 <!-- for compatibily problems set flywayCoreVersion in frofiles properties -->
                 <flywayCoreVersion>9.22.3</flywayCoreVersion>
                 <fileFlyWayConfig>src/main/resources/flyWay.config/postgreSqlConfig.properties</fileFlyWayConfig>
+                <reverseconnectorVersion>${postgersSqlconnectorVersion}</reverseconnectorVersion>
+                <reverseHmbConfig>src/main/resources/revegHmb.config/postgresSql</reverseHmbConfig>
             </properties>
         </profile>
         <profile>
@@ -56,11 +79,11 @@
                 <!-- for compatibily problems set flywayCoreVersion in frofiles properties -->
                 <flywayCoreVersion>10.3.0</flywayCoreVersion>
                 <fileFlyWayConfig>src/main/resources/flyWay.config/h2.properties</fileFlyWayConfig>
+                <reverseconnectorVersion>${mySqlconnectorVersion}</reverseconnectorVersion>
+                <reverseHmbConfig>src/main/resources/revegHmb.config/h2</reverseHmbConfig>
             </properties>
         </profile>
     </profiles>
-
-
 
 
     <parent>
@@ -141,6 +164,12 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
             <version>${flywayMysqlVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.persistence</groupId>
+                    <artifactId>javax.persistence-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -164,11 +193,11 @@
             <version>2.2.224</version>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.liquibase</groupId>-->
-<!--            <artifactId>liquibase-core</artifactId>-->
-<!--            <version>4.23.2</version> &lt;!&ndash; Sostituisci con una versione compatibile con il tuo progetto &ndash;&gt;-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.3.1.Final</version>  <!-- Assicurati che sia almeno 6.x -->
+        </dependency>
     </dependencies>
 
     <build>
@@ -220,14 +249,40 @@
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
-                        <goals><goal>prepare-agent</goal></goals>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
                     </execution>
                     <execution>
                         <id>report</id>
                         <phase>test</phase>
-                        <goals><goal>report</goal></goals>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Hibernate reverse -->
+            <plugin>
+                <groupId>org.hibernate.tool</groupId>
+                <artifactId>hibernate-tools-maven</artifactId>
+                <version>6.6.10.Final</version>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>generate-sources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>hbm2java</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+                <configuration>
+                    <createManyToOneForForeignKey>true</createManyToOneForForeignKey>
+                    <revengFile>${reverseHmbConfig}/reveng.xml</revengFile>
+                   <propertyFile>${reverseHmbConfig}/hibernate.properties</propertyFile>
+                    <ejb3>true</ejb3>
+                    <jdk5>true</jdk5>
+                    <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>

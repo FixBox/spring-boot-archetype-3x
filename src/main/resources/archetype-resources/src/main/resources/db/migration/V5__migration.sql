@@ -1,0 +1,1 @@
+ALTER TABLE TEST_TABLE_1 ADD id2_column varchar(36) NULL;
