@@ -9,7 +9,7 @@ for use in local repository clone project and  launch the command
 On build successful , look in your .m2 directory if file jar was created. (.m2/repository/it/service/spring-boot-archetype-3x/1.0-SNAPSHOT/).
 Now is possible gerate project!
 
-# Create Services project by Archetype
+# Create Service project by Archetype
 
 Is possible generate  the project by maven command line or by a  IDE like Intellij Idea or Eclipse.
 Here we use only maven command line.
@@ -21,7 +21,7 @@ For Eclipse please use wizard for new project , I can not find documentation on 
 
 # Maven Build
 
-*  `mvn archetype:generate -B  -DarchetypeGroupId=it.service   -DarchetypeArtifactId=spring-boot-archetype-3x  -DarchetypeVersion=1.1-SNAPSHOT   -DgroupId=com.company   -DartifactId=projectName  -Dversion=1.0-SNAPSHOT   -Dpackage=com.company.project`
+*  `mvn archetype:generate -B  -DarchetypeGroupId=it.service   -DarchetypeArtifactId=spring-boot-archetype-3x  -DarchetypeVersion=1.2-SNAPSHOT   -DgroupId=com.company   -DartifactId=projectName  -Dversion=1.0-SNAPSHOT   -Dpackage=com.company.project`
 
 
 
@@ -94,6 +94,65 @@ for migrate db by command line (example for mySql but same command for others db
 
     mvn flyway:migrate -P mySql-migration
 
+# postgreSQL and Mysql connection Flyway plugin for reverse engineering  db object from db 
+From the version 1.2-SNAPSHOT is possible create Entity , DAO , DDL schema ) from DB using hibernate-tools-maven .
+For every db exist directory with specific configuration (hibbernate.properties and reveng.xml) for example for mySql
+under directory revegHmb.config exist directory mySql same for others db
+
+## hibernate.properties for MySql basic configuration 
+>######## HIBERNATE TOOL CONFIGURATION# ###########
+>hibernate.connection.driver_class=com.mysql.cj.jdbc.Driver
+> 
+>hibernate.connection.url=jdbc:mysql://localhost:3306/test?serverTimezone=UTC
+> 
+>hibernate.connection.username=root
+> 
+>hibernate.connection.password=rootmysql
+> 
+>hibernate.show_sql=true
+> 
+>hibernate.format_sql=true
+> 
+>hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+> 
+
+## reveng.xml for MySql basic configuration this file set the filter for revert engineering. (it is possible different DB will be have different configurations ):
+    <hibernate-reverse-engineering>
+        <type-mapping>
+            <sql-type jdbc-type="VARCHAR" hibernate-type="string"/>
+        </type-mapping>
+        <table
+                match-catalog="test"
+                match-schema="test"
+                match-name="flyway_schema_history"
+                exclude="true"
+                package="org.test.jpa.models"
+        />
+        <table-filter
+                match-catalog=".*"
+                match-schema=".*"
+                match-name="TEST_.*"
+                exclude="false"
+                package="org.generate.jpa.models"
+        />
+    </hibernate-reverse-engineering>
+
+## run Entities generation 
+    mvn hibernate-tools:hbm2java -P mySql-migration
+
+## run DAO generation:
+    mvn hibernate-tools:hbm2dao -P mySql-migration
+
+## run DDL generation 
+    mvn hibernate-tools:hbm2ddl -P mySql-migration
+   
+The destination output directory is set in pom.xml in plugin property:
+
+    <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+
+The Entities generation , DAO and DLL are separate from the every build or rn maven build , it is a my choice for work 
+in dev generation and avoid involuntary db access.
+
 for start service create :
 
     java -jar <jourApplication>.jar --spring.profiles.active=local
@@ -105,3 +164,6 @@ after service start you can see port and context path in your console :
 
 Swagger documentation on :
 > 'http://localhost:<your_port>/**<your_context_path>**/swagger-ui.html
+
+<b>This archetype is released under the GNU General Public License v3 (GPLv3).
+Projects generated using this archetype are not automatically subject to the same license, unless they include substantial portions of the code from the archetype itself.</b>

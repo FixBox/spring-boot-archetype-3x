@@ -1,0 +1,22 @@
+<hibernate-reverse-engineering>
+    <type-mapping>
+        <sql-type jdbc-type="VARCHAR" hibernate-type="string"/>
+    </type-mapping>
+    <table
+            match-catalog="test"
+            match-schema="test"
+            match-name="flyway_schema_history"
+            exclude="true"
+            package="org.test.jpa.models"
+    />
+    <table-filter
+            match-catalog=".*"
+            match-schema=".*"
+            match-name="TEST_.*"
+            exclude="false"
+            package="org.generate.jpa.models"
+    />
+
+
+</hibernate-reverse-engineering>
+

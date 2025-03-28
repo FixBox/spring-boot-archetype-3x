@@ -3,3 +3,5 @@ CREATE TABLE TEST_TABLE (
 	description varchar(100) NULL,
 	CONSTRAINT TEST_TABLE_pk PRIMARY KEY (id)
 );
+
+
