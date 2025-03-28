@@ -6,7 +6,7 @@
 
   <groupId>it.service</groupId>
   <artifactId>spring-boot-archetype-3x</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
   <name>Archetype - spring-boot-archetype-3x</name>

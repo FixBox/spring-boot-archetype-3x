@@ -1,0 +1,1 @@
+ALTER TABLE TEST_TABLE ADD warning varchar(100) NULL;
