@@ -35,6 +35,9 @@ import  ${package}.dto.request.TestTableDto;
 import ${package}.dto.response.TestTableResponseDto;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+import java.util.UUID;
+
 
 @Slf4j
 @RestController
@@ -66,6 +69,28 @@ public class DemoController {
     })
     @PostMapping("/save")
     public ResponseEntity<TestTableResponseDto> saveTestTable (@RequestBody TestTableDto testTableDto){
-        return new  ResponseEntity<TestTableResponseDto>(serviceAppl.addTestTableDto(testTableDto), HttpStatus.OK );
+        TestTableResponseDto testTableResponseDto = serviceAppl.addTestTableDto(testTableDto);
+        if(testTableResponseDto.getMessaggeError()!=null) {
+            return new  ResponseEntity<TestTableResponseDto>(testTableResponseDto, HttpStatus.CONFLICT );
+        }
+        return new  ResponseEntity<TestTableResponseDto>(testTableResponseDto, HttpStatus.OK );
+    }
+
+    @Operation(summary = "Test get TestTable from  DB" , description = "Test get TestTable from  DB")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "500", description = "Error"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<TestTableResponseDto> getTableResponseById(@PathVariable("id") UUID id ){
+        log.info("Start getById : {}" , id);
+        TestTableResponseDto testTableResponseDtoById = serviceAppl.getTestTableResponseDtoById(id);
+        if(Objects.nonNull(testTableResponseDtoById)) {
+            return new ResponseEntity<>(testTableResponseDtoById, HttpStatus.OK);
+        }
+        testTableResponseDtoById = new TestTableResponseDto();
+        testTableResponseDtoById.setId(id.toString());
+        return new ResponseEntity<>(testTableResponseDtoById , HttpStatus.NOT_FOUND);
     }
 }

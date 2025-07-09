@@ -27,6 +27,9 @@ import ${package}.dto.response.TestTableResponseDto;
 import ${package}.services.interfaces.ServiceAppl;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+import java.util.UUID;
+
 @Service
 public class ServiceApplImpl implements ServiceAppl {
     private ModelMapper mapper = new ModelMapper();
@@ -41,7 +44,20 @@ public class ServiceApplImpl implements ServiceAppl {
 
     @Override
     public TestTableResponseDto addTestTableDto(TestTableDto testTableDto) {
+        TestTableResponseDto testTableResponseDtoById = getTestTableResponseDtoById(UUID.fromString(testTableDto.getId()));
+        if(Objects.nonNull(testTableResponseDtoById)) {
+            TestTableResponseDto dupliTestTableResponseDto = mapper.map(testTableDto, TestTableResponseDto.class);
+            dupliTestTableResponseDto.setMessaggeError("Duplicate Key : ".concat(testTableDto.getId()));
+            return dupliTestTableResponseDto;
+        }
         TestTableEntity entitySave = testTableRepository.save(mapper.map(testTableDto, TestTableEntity.class));
         return mapper.map(entitySave, TestTableResponseDto.class);
+    }
+
+    @Override
+    public TestTableResponseDto getTestTableResponseDtoById(UUID id) {
+        return testTableRepository.findById(id)
+                .map(testTableEntity -> mapper.map(testTableEntity, TestTableResponseDto.class))
+                .orElse(null);
     }
 }

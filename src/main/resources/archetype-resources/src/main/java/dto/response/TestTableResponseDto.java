@@ -19,12 +19,18 @@
 package ${package}.dto.response;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import ${package}.dto.request.TestTableDto;
 import java.io.Serial;
 
 
+@Setter
+@Getter
 public class TestTableResponseDto extends TestTableDto  {
     @Serial
     private static final long serialVersionUID = -2350308219072103155L;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String messaggeError ;
 
 }

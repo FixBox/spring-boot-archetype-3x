@@ -37,6 +37,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <juni5Version>5.10.1</juni5Version>
         <mySqlconnectorVersion>8.2.0</mySqlconnectorVersion>
         <postgersSqlconnectorVersion>42.7.1</postgersSqlconnectorVersion>
+        <oracleConnectorVersion>23.8.0.25.04</oracleConnectorVersion>
+        <flywayOracleVersion>10.3.0</flywayOracleVersion>
         <modelMapperVersion>3.1.1</modelMapperVersion>
         <springdocOpenapiWebMvcUiVersion>2.3.0</springdocOpenapiWebMvcUiVersion>
         <lombokVersion>1.18.30</lombokVersion>
@@ -50,6 +52,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <flywayMysqlVersion>10.6.0</flywayMysqlVersion>
         <!--        <fileFlyWayConfig>src/main/resources/flyWay.config/</fileFlyWayConfig>-->
         <flywayCoreVersion>10.3.0</flywayCoreVersion>
+        <swaggerCodegenMavenPluginVersion>2.4.40</swaggerCodegenMavenPluginVersion>
     </properties>
 
     <profiles>
@@ -81,6 +84,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 <fileFlyWayConfig>src/main/resources/flyWay.config/h2.properties</fileFlyWayConfig>
                 <reverseconnectorVersion>${mySqlconnectorVersion}</reverseconnectorVersion>
                 <reverseHmbConfig>src/main/resources/revegHmb.config/h2</reverseHmbConfig>
+            </properties>
+        </profile>
+        <profile>
+            <id>oracle-migration</id>
+            <properties>
+                <!-- for compatibily problems set flywayCoreVersion in frofiles properties -->
+                <flywayCoreVersion>10.3.0</flywayCoreVersion>
+                <fileFlyWayConfig>src/main/resources/flyWay.config/oracleSqlConfig.properties</fileFlyWayConfig>
+                <reverseconnectorVersion>${flywayOracleVersion}</reverseconnectorVersion>
+                <reverseHmbConfig>src/main/resources/revegHmb.config/oracle</reverseHmbConfig>
             </properties>
         </profile>
     </profiles>
@@ -171,6 +184,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-oracle</artifactId>
+            <version>${flywayOracleVersion}</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.mysql</groupId>
@@ -192,6 +211,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <artifactId>h2</artifactId>
             <version>2.2.224</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc11</artifactId>
+            <version>${oracleConnectorVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.orm</groupId>
@@ -282,6 +306,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     <ejb3>true</ejb3>
                     <jdk5>true</jdk5>
                     <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>${swaggerCodegenMavenPluginVersion}</version>
+                <configuration>
+                    <inputSpec>C:\Users\FixBo\Downloads\openapi.json</inputSpec>
+                    <output>${project.build.directory}/generated-sources/pojo</output>
+                    <language>java</language>
                 </configuration>
             </plugin>
         </plugins>
