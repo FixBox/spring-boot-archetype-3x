@@ -18,6 +18,7 @@
  */
 package ${package}.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,5 +33,7 @@ public class TestTableResponseDto extends TestTableDto  {
     private static final long serialVersionUID = -2350308219072103155L;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String messaggeError ;
+    private boolean deleted ;
+
 
 }

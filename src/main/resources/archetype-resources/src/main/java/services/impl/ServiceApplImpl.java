@@ -26,6 +26,7 @@ import ${package}.dto.request.TestTableDto;
 import ${package}.dto.response.TestTableResponseDto;
 import ${package}.services.interfaces.ServiceAppl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -59,5 +60,34 @@ public class ServiceApplImpl implements ServiceAppl {
         return testTableRepository.findById(id)
                 .map(testTableEntity -> mapper.map(testTableEntity, TestTableResponseDto.class))
                 .orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public TestTableResponseDto deleteTestTableResponseDtoById(UUID id) {
+        TestTableResponseDto deleteTestTableResponseDto = null;
+        if(Objects.isNull(getTestTableResponseDtoById(id))) {
+            return deleteTestTableResponseDto;
+        }
+
+        deleteTestTableResponseDto = new TestTableResponseDto();
+        testTableRepository.deleteById(id);
+        if(Objects.isNull(getTestTableResponseDtoById(id))){
+            deleteTestTableResponseDto.setDeleted(Boolean.TRUE);
+            deleteTestTableResponseDto.setId(String.valueOf(id));
+        }
+        return deleteTestTableResponseDto;
+    }
+
+
+    @Override
+    @Transactional
+    public TestTableResponseDto updateTestTableDto(TestTableDto testTableDto) {
+        TestTableResponseDto deleteTestTableResponseDto = null;
+        if(Objects.isNull(getTestTableResponseDtoById(UUID.fromString(testTableDto.getId())))) {
+            return deleteTestTableResponseDto;
+        }
+        TestTableEntity saveTestTableEntity = testTableRepository.save(mapper.map(testTableDto, TestTableEntity.class));
+        return mapper.map(saveTestTableEntity ,  TestTableResponseDto.class);
     }
 }

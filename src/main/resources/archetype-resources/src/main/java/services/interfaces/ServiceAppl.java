@@ -28,4 +28,10 @@ public interface ServiceAppl {
     TestTableResponseDto addTestTableDto(TestTableDto testTableDto);
 
     TestTableResponseDto getTestTableResponseDtoById(UUID id);
+
+    TestTableResponseDto deleteTestTableResponseDtoById(UUID id);
+
+    TestTableResponseDto updateTestTableDto(TestTableDto testTableDto);
+
+
 }
